@@ -1,0 +1,23 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+form {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f7f7f7;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+label, input {
+    display: block;
+    margin: 5px 0;
+}
+
+.error {
+    color: red;
+}
