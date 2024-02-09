@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <!-- Dodajte stil prema vašim željama -->
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<h2>User List</h2>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Username</th>
+        <th>Country</th>
+        <th>Action</th>
+    </tr>
+
+    <?php
+    // Spajanje na bazu podataka (prilagodite svojim podacima)
+    $servername = "localhost";
+    $username = "your_username";
+    $password = "your_password";
+    $dbname = "your_database_name";
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Provjera veze
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Upit za dohvat korisnika i pripadajućih država
+    $sql = "SELECT users.id, users.firstname, users.lastname, users.email, users.username, countries.country_name
+            FROM users
+            LEFT JOIN countries ON users.country_code = countries.country_code";
+
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        // Prikazivanje rezultata u tablici
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr>
+                    <td>{$row['id']}</td>
+                    <td>{$row['firstname']}</td>
+                    <td>{$row['lastname']}</td>
+                    <td>{$row['email']}</td>
+                    <td>{$row['username']}</td>
+                    <td>{$row['country_name']}</td>
+                    <td><a href='edit_user.php?id={$row['id']}'>Edit</a></td>
+                  </tr>";
+        }
+    } else {
+        echo "<tr><td colspan='7'>No users found</td></tr>";
+    }
+
+    $conn->close();
+    ?>
+</table>
+
+</body>
+</html>
